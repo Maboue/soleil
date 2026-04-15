@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  # Public: this becomes part of the built frontend bundle.
+  VITE_CONVEX_URL: https://fastidious-antelope-246.convex.cloud
+
 permissions:
   contents: read
   pages: write
