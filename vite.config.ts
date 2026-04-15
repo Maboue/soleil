@@ -1,12 +1,26 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { copyFileSync, existsSync } from "fs";
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   base: mode === "production" ? "/soleil/" : "/",
   plugins: [
     react(),
+    ...(mode === "production"
+      ? [
+          {
+            name: "github-pages-spa-fallback",
+            closeBundle() {
+              const dist = path.resolve(__dirname, "dist");
+              const index = path.join(dist, "index.html");
+              const fallback = path.join(dist, "404.html");
+              if (existsSync(index)) copyFileSync(index, fallback);
+            },
+          },
+        ]
+      : []),
     // The code below enables dev tools like taking screenshots of your site
     // while it is being developed on chef.convex.dev.
     // Feel free to remove this code if you're no longer developing your app with Chef.
