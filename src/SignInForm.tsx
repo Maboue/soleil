@@ -10,10 +10,6 @@ export function SignInForm() {
 
   return (
     <div className="w-full">
-      <p className="mb-3 text-xs font-light leading-snug text-stone-400">
-        Create an account below, then in Convex → Data → users open your row and
-        set <span className="font-mono">isAdmin</span> to true to unlock editing.
-      </p>
       <form
         className="flex flex-col gap-form-field"
         onSubmit={(e) => {
