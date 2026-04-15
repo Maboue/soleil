@@ -114,7 +114,7 @@ export function ArtworkCard({
       whileHover={{ y: -4 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="aspect-[3/4] bg-gray-50 overflow-hidden" onClick={onClick}>
+      <div className="aspect-[3/4] bg-stone-100 overflow-hidden" onClick={onClick}>
         {artwork.imageUrl && (
           <motion.img
             src={artwork.imageUrl}
@@ -125,7 +125,7 @@ export function ArtworkCard({
           />
         )}
         {artwork.sold && (
-          <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full tracking-widest uppercase">
+          <div className="absolute top-3 left-3 bg-black/55 text-sm font-light text-white/90 px-3 py-1 rounded-full tracking-[0.22em] uppercase">
             Sold
           </div>
         )}
@@ -144,13 +144,13 @@ export function ArtworkCard({
         transition={{ duration: 0.3 }}
         className="absolute bottom-0 left-0 right-0 p-4 text-white pointer-events-none"
       >
-        <p className="font-light text-sm tracking-wide">{artwork.title}</p>
+        <p className="text-sm font-light tracking-[0.08em] text-white/90">{artwork.title}</p>
         {artwork.price && (
-          <p className="text-xs opacity-80 mt-0.5">
+          <p className="text-sm font-light text-white/85 mt-1">
             {artwork.sold ? "Sold" : `€${artwork.price.toLocaleString()}`}
           </p>
         )}
-        {artwork.size && <p className="text-xs opacity-60 mt-0.5">{artwork.size}</p>}
+        {artwork.size && <p className="text-sm font-light text-white/85 mt-1">{artwork.size}</p>}
       </motion.div>
 
       {adminMode && (

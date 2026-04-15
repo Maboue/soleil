@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as admins from "../admins.js";
 import type * as artworks from "../artworks.js";
 import type * as auth from "../auth.js";
 import type * as collections from "../collections.js";
@@ -15,6 +16,7 @@ import type * as http from "../http.js";
 import type * as router from "../router.js";
 import type * as settings from "../settings.js";
 import type * as storage from "../storage.js";
+import type * as userCleanup from "../userCleanup.js";
 
 import type {
   ApiFromModules,
@@ -23,6 +25,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  admins: typeof admins;
   artworks: typeof artworks;
   auth: typeof auth;
   collections: typeof collections;
@@ -30,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   router: typeof router;
   settings: typeof settings;
   storage: typeof storage;
+  userCleanup: typeof userCleanup;
 }>;
 
 /**

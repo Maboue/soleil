@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
-import { getAuthUserId } from "@convex-dev/auth/server";
+import { requireAdmin } from "./admins";
 
 export const get = query({
   args: { key: v.string() },
@@ -16,8 +16,7 @@ export const get = query({
 export const set = mutation({
   args: { key: v.string(), value: v.string() },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
+    await requireAdmin(ctx);
     const existing = await ctx.db
       .query("siteSettings")
       .withIndex("by_key", (q) => q.eq("key", args.key))

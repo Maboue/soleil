@@ -41,24 +41,24 @@ export function AboutSection({ adminMode }: Props) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="px-6 md:px-12 lg:px-20 py-16 md:py-24 border-t border-gray-100"
+      className="px-8 md:px-16 lg:px-24 py-20 md:py-32"
     >
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 md:gap-20 items-center">
+      <div className="max-w-3xl mx-auto flex flex-col md:flex-row gap-16 md:gap-24 items-center">
         {/* Photo */}
         <div
-          className={`shrink-0 w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden bg-gray-100 ${adminMode ? "cursor-pointer group relative" : ""}`}
+          className={`shrink-0 w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden bg-stone-100 ${adminMode ? "cursor-pointer group relative" : ""}`}
           onClick={() => adminMode && fileRef.current?.click()}
         >
           {aboutImageUrl ? (
             <img src={aboutImageUrl} alt="Artist" className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs tracking-widest uppercase text-center px-4">
+            <div className="w-full h-full flex items-center justify-center text-sm font-light text-stone-400 tracking-[0.22em] uppercase text-center px-4">
               {adminMode ? "Click to add photo" : ""}
             </div>
           )}
           {adminMode && (
             <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity rounded-full flex items-center justify-center">
-              <span className="text-white text-xs tracking-widest uppercase">
+              <span className="text-sm font-light text-white/90 tracking-[0.22em] uppercase">
                 {aboutImageUrl ? "Replace" : "Add photo"}
               </span>
             </div>
@@ -74,13 +74,13 @@ export function AboutSection({ adminMode }: Props) {
 
         {/* Text */}
         <div className="flex-1">
-          <h2 className="text-2xl md:text-3xl font-light tracking-widest uppercase mb-6">About</h2>
+          <h2 className="text-sm font-light tracking-[0.22em] text-stone-500 uppercase mb-8">About</h2>
 
           {editing && adminMode ? (
             <div className="flex flex-col gap-3">
               <textarea
                 autoFocus
-                className="text-sm text-gray-600 leading-relaxed border border-gray-200 rounded-lg outline-none p-3 bg-transparent resize-none w-full"
+                className="text-sm font-light text-stone-500 leading-relaxed border border-stone-200 rounded-lg outline-none p-3 bg-transparent resize-none w-full"
                 rows={8}
                 value={textVal}
                 onChange={(e) => setTextVal(e.target.value)}
@@ -107,7 +107,7 @@ export function AboutSection({ adminMode }: Props) {
             </div>
           ) : (
             <p
-              className={`text-sm text-gray-600 leading-relaxed whitespace-pre-wrap ${adminMode ? "cursor-pointer hover:opacity-60 transition-opacity" : ""} ${!aboutText && !adminMode ? "hidden" : ""}`}
+              className={`text-sm font-light text-stone-500 leading-relaxed whitespace-pre-wrap ${adminMode ? "cursor-pointer hover:opacity-60 transition-opacity" : ""} ${!aboutText && !adminMode ? "hidden" : ""}`}
               onClick={() => {
                 if (adminMode) {
                   setTextVal(aboutText ?? "");

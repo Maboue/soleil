@@ -21,9 +21,18 @@ interface Props {
   adminMode: boolean;
   onArtworkClick: (a: ArtworkWithUrls) => void;
   index: number;
+  showCover?: boolean;
+  showTopBorder?: boolean;
 }
 
-export function CollectionSection({ collection, adminMode, onArtworkClick, index }: Props) {
+export function CollectionSection({
+  collection,
+  adminMode,
+  onArtworkClick,
+  index,
+  showCover = true,
+  showTopBorder = true,
+}: Props) {
   const artworks = useQuery(api.artworks.listByCollection, {
     collectionId: collection._id,
   }) ?? [];
@@ -73,12 +82,12 @@ export function CollectionSection({ collection, adminMode, onArtworkClick, index
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="border-t border-gray-100"
+      className={showTopBorder ? "border-t border-stone-200/80" : ""}
     >
       {/* Cover Image Banner */}
-      {(collection.coverUrl || adminMode) && (
+      {showCover && (collection.coverUrl || adminMode) && (
         <div
-          className={`relative w-full overflow-hidden ${collection.coverUrl ? "h-64 md:h-96" : "h-32 bg-gray-50"} ${adminMode ? "cursor-pointer group" : ""}`}
+          className={`relative w-full overflow-hidden ${collection.coverUrl ? "h-64 md:h-96" : "h-32 bg-stone-100"} ${adminMode ? "cursor-pointer group" : ""}`}
           onClick={() => adminMode && coverFileRef.current?.click()}
         >
           {collection.coverUrl ? (
@@ -88,13 +97,13 @@ export function CollectionSection({ collection, adminMode, onArtworkClick, index
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs tracking-widest uppercase">
+            <div className="w-full h-full flex items-center justify-center text-sm font-light text-stone-400 tracking-[0.22em] uppercase">
               Click to add cover image
             </div>
           )}
           {adminMode && (
             <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-              <span className="text-white text-xs tracking-widest uppercase bg-black/50 px-4 py-2 rounded-full">
+              <span className="text-sm font-light text-white/90 tracking-[0.22em] uppercase bg-black/40 px-4 py-2 rounded-full">
                 {collection.coverUrl ? "Replace cover" : "Add cover image"}
               </span>
             </div>
@@ -109,14 +118,14 @@ export function CollectionSection({ collection, adminMode, onArtworkClick, index
         </div>
       )}
 
-      <div className="px-6 md:px-12 lg:px-20 py-16 md:py-24">
+      <div className="px-8 md:px-16 lg:px-24 py-20 md:py-32">
         {/* Collection Header */}
-        <div className="mb-10 md:mb-16 flex items-start justify-between gap-4">
+        <div className="mb-14 md:mb-20 flex items-start justify-between gap-6">
           <div className="flex-1">
             {editingTitle && adminMode ? (
               <input
                 autoFocus
-                className="text-2xl md:text-3xl font-light tracking-widest uppercase border-b border-gray-300 outline-none bg-transparent w-full"
+                className="text-sm font-light tracking-[0.22em] text-stone-500 uppercase border-b border-stone-200 outline-none bg-transparent w-full"
                 value={titleVal}
                 onChange={(e) => setTitleVal(e.target.value)}
                 onBlur={async () => {
@@ -127,7 +136,7 @@ export function CollectionSection({ collection, adminMode, onArtworkClick, index
               />
             ) : (
               <h2
-                className={`text-2xl md:text-3xl font-light tracking-widest uppercase ${adminMode ? "cursor-pointer hover:opacity-60 transition-opacity" : ""}`}
+                className={`text-sm font-light tracking-[0.22em] text-stone-500 uppercase ${adminMode ? "cursor-pointer hover:opacity-60 transition-opacity" : ""}`}
                 onClick={() => { if (adminMode) { setTitleVal(collection.title); setEditingTitle(true); } }}
               >
                 {collection.title}
@@ -137,7 +146,7 @@ export function CollectionSection({ collection, adminMode, onArtworkClick, index
             {editingDesc && adminMode ? (
               <textarea
                 autoFocus
-                className="mt-3 text-sm text-gray-500 leading-relaxed border-b border-gray-200 outline-none bg-transparent w-full resize-none"
+                className="mt-4 text-sm font-light text-stone-500 leading-relaxed border-b border-stone-200 outline-none bg-transparent w-full resize-none"
                 rows={3}
                 value={descVal}
                 onChange={(e) => setDescVal(e.target.value)}
@@ -148,7 +157,7 @@ export function CollectionSection({ collection, adminMode, onArtworkClick, index
               />
             ) : (
               <p
-                className={`mt-3 text-sm text-gray-500 leading-relaxed max-w-xl ${adminMode ? "cursor-pointer hover:opacity-60 transition-opacity" : ""} ${!collection.description && !adminMode ? "hidden" : ""}`}
+                className={`mt-4 text-sm font-light text-stone-500 leading-relaxed max-w-xl ${adminMode ? "cursor-pointer hover:opacity-60 transition-opacity" : ""} ${!collection.description && !adminMode ? "hidden" : ""}`}
                 onClick={() => { if (adminMode) { setDescVal(collection.description ?? ""); setEditingDesc(true); } }}
               >
                 {collection.description || (adminMode ? "Click to add description…" : "")}
@@ -172,7 +181,7 @@ export function CollectionSection({ collection, adminMode, onArtworkClick, index
         </div>
 
         {/* Artwork Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
           {artworks.map((artwork) => (
             <ArtworkCard
               key={artwork._id}

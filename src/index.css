@@ -4,12 +4,11 @@
 
 :root {
   --color-light: #ffffff;
-  --color-dark: #171717;
+  --color-ink: #78716c;
 }
 
 body {
   font-family:
-    "Inter Variable",
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -20,7 +19,8 @@ body {
     Arial,
     "Noto Sans",
     sans-serif;
-  color: var(--color-dark);
+  font-weight: 300;
+  color: var(--color-ink);
   background: var(--color-light);
   -webkit-font-smoothing: antialiased;
 }
@@ -46,6 +46,6 @@ html {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
+  background: #d6d3d1;
   border-radius: 2px;
 }

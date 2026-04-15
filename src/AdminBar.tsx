@@ -1,5 +1,4 @@
-import { useAction } from "convex/react";
-import { api } from "../convex/_generated/api";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 interface Props {
   adminMode: boolean;
@@ -7,12 +6,12 @@ interface Props {
 }
 
 export function AdminBar({ adminMode, setAdminMode }: Props) {
-  const signOut = useAction(api.auth.signOut);
+  const { signOut } = useAuthActions();
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 bg-black/90 backdrop-blur text-white text-sm">
+    <div className="fixed top-0 left-0 right-0 z-[600] flex items-center justify-between px-6 py-3 bg-black/90 backdrop-blur text-white text-sm">
       <span className="font-light tracking-widest uppercase text-xs opacity-60">
-        Admin
+        Signed in · editor
       </span>
       <div className="flex items-center gap-4">
         <button
@@ -23,10 +22,11 @@ export function AdminBar({ adminMode, setAdminMode }: Props) {
               : "border border-white/30 text-white/70 hover:border-white hover:text-white"
           }`}
         >
-          {adminMode ? "✏️ Editing" : "Edit Mode"}
+          {adminMode ? "Editing" : "Edit mode"}
         </button>
         <button
-          onClick={() => signOut()}
+          type="button"
+          onClick={() => void signOut()}
           className="text-white/50 hover:text-white transition-colors text-xs"
         >
           Sign out

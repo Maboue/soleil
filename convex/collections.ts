@@ -1,6 +1,6 @@
 import { v } from "convex/values";
-import { query, mutation, internalQuery } from "./_generated/server";
-import { getAuthUserId } from "@convex-dev/auth/server";
+import { query, mutation } from "./_generated/server";
+import { requireAdmin } from "./admins";
 
 export const list = query({
   args: {},
@@ -39,8 +39,7 @@ export const create = mutation({
     description: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
+    await requireAdmin(ctx);
     const all = await ctx.db.query("collections").collect();
     const maxOrder = all.reduce((m, c) => Math.max(m, c.order), -1);
     return await ctx.db.insert("collections", {
@@ -59,8 +58,7 @@ export const update = mutation({
     coverImageId: v.optional(v.id("_storage")),
   },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
+    await requireAdmin(ctx);
     const { id, ...fields } = args;
     await ctx.db.patch(id, fields);
   },
@@ -69,8 +67,7 @@ export const update = mutation({
 export const remove = mutation({
   args: { id: v.id("collections") },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
+    await requireAdmin(ctx);
     // delete all artworks in collection
     const artworks = await ctx.db
       .query("artworks")
@@ -86,8 +83,7 @@ export const remove = mutation({
 export const reorder = mutation({
   args: { ids: v.array(v.id("collections")) },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
+    await requireAdmin(ctx);
     for (let i = 0; i < args.ids.length; i++) {
       await ctx.db.patch(args.ids[i], { order: i });
     }

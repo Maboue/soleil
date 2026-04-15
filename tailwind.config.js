@@ -7,6 +7,15 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Inter var", ...fontFamily.sans],
+        collection: [
+          "Palatino Linotype",
+          "Palatino",
+          "Book Antiqua",
+          "Georgia",
+          "Times New Roman",
+          "Times",
+          "serif",
+        ],
       },
       borderRadius: {
         DEFAULT: "8px",

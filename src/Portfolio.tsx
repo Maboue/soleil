@@ -1,12 +1,15 @@
-import { useQuery, useMutation } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import { useState } from "react";
-import { CollectionSection } from "./CollectionSection";
 import { ArtworkOverlay } from "./ArtworkOverlay";
 import { SiteHeader } from "./SiteHeader";
-import { AboutSection } from "./AboutSection";
 import { Id } from "../convex/_generated/dataModel";
+import { Routes, Route } from "react-router-dom";
+import { Home } from "./Home";
+import { CollectionPage } from "./CollectionPage";
+import { AboutPage } from "./AboutPage";
+import { AdminLoginFooter } from "./AdminLoginFooter";
 
 interface Props {
   adminMode: boolean;
@@ -30,7 +33,6 @@ export type ArtworkWithUrls = {
 };
 
 export function Portfolio({ adminMode }: Props) {
-  const collections = useQuery(api.collections.list) ?? [];
   const [overlayArtwork, setOverlayArtwork] = useState<ArtworkWithUrls | null>(null);
   const createCollection = useMutation(api.collections.create);
 
@@ -39,29 +41,31 @@ export function Portfolio({ adminMode }: Props) {
       <SiteHeader adminMode={adminMode} />
 
       <main>
-        {/* About section comes first */}
-        <AboutSection adminMode={adminMode} />
-
-        {collections.map((collection, i) => (
-          <CollectionSection
-            key={collection._id}
-            collection={collection}
-            adminMode={adminMode}
-            onArtworkClick={setOverlayArtwork}
-            index={i}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Home adminMode={adminMode} />
+                {adminMode && (
+                  <div className="flex justify-center py-16">
+                    <button
+                      onClick={() => createCollection({ title: "New Collection" })}
+                      className="px-8 py-3 border border-dashed border-stone-300 text-stone-400 hover:border-stone-400 hover:text-stone-500 transition-all rounded-full text-sm font-light tracking-[0.22em] uppercase"
+                    >
+                      + Add Collection
+                    </button>
+                  </div>
+                )}
+              </>
+            }
           />
-        ))}
-
-        {adminMode && (
-          <div className="flex justify-center py-16">
-            <button
-              onClick={() => createCollection({ title: "New Collection" })}
-              className="px-8 py-3 border border-dashed border-gray-300 text-gray-400 hover:border-gray-500 hover:text-gray-600 transition-all rounded-full text-sm tracking-widest uppercase"
-            >
-              + Add Collection
-            </button>
-          </div>
-        )}
+          <Route
+            path="/collections/:id"
+            element={<CollectionPage adminMode={adminMode} onArtworkClick={setOverlayArtwork} />}
+          />
+          <Route path="/about" element={<AboutPage adminMode={adminMode} />} />
+        </Routes>
       </main>
 
       <AnimatePresence>
@@ -73,8 +77,9 @@ export function Portfolio({ adminMode }: Props) {
         )}
       </AnimatePresence>
 
-      <footer className="py-16 text-center text-xs text-gray-300 tracking-widest uppercase">
+      <footer className="px-6 pb-16 pt-20 text-center text-sm font-light text-stone-400 tracking-[0.22em] uppercase">
         <span>© {new Date().getFullYear()}</span>
+        <AdminLoginFooter />
       </footer>
     </div>
   );
