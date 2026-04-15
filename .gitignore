@@ -3,8 +3,11 @@ dist/
 
 # Local env files (never commit)
 .env
-.env.* 
+.env.*
 .env.local
+
+# Commit template for local env
+!.env.example
 
 # Convex local state (never commit)
 .convex/

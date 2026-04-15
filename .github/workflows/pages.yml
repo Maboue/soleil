@@ -7,7 +7,8 @@ on:
 
 env:
   # Public: this becomes part of the built frontend bundle.
-  VITE_CONVEX_URL: https://fastidious-antelope-246.convex.cloud
+  # Set in GitHub: Settings -> Secrets and variables -> Actions -> Variables
+  VITE_CONVEX_URL: ${{ vars.VITE_CONVEX_URL }}
 
 permissions:
   contents: read
@@ -27,6 +28,12 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Assert required env
+        run: |
+          if [ -z "${VITE_CONVEX_URL}" ]; then
+            echo "Missing VITE_CONVEX_URL. Set it in GitHub Actions Variables."
+            exit 1
+          fi
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
