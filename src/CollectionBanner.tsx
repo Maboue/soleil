@@ -11,8 +11,9 @@ type Collection = {
 
 const PLACEHOLDER_TITLE = "New Collection";
 
-function displayTitle(title: string) {
+function bannerTitle(title: string, showEditorPlaceholders: boolean) {
   const t = title.trim();
+  if (showEditorPlaceholders) return t || PLACEHOLDER_TITLE;
   if (!t || t === PLACEHOLDER_TITLE) return null;
   return t;
 }
@@ -20,11 +21,13 @@ function displayTitle(title: string) {
 export function CollectionBanner({
   collection,
   isFirst = false,
+  adminMode = false,
 }: {
   collection: Collection;
   isFirst?: boolean;
+  adminMode?: boolean;
 }) {
-  const titleText = displayTitle(collection.title);
+  const titleText = bannerTitle(collection.title, adminMode);
   const desc = collection.description?.trim();
   const hasCaption = Boolean(titleText || desc);
 

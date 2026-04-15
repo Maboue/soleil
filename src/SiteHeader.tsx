@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function SiteHeader({ adminMode }: Props) {
-  const artistName = useQuery(api.settings.get, { key: "artistName" }) ?? "Artist Name";
+  const artistName = useQuery(api.settings.get, { key: "artistName" }) ?? "Soleil Fleming";
   const aboutImageId = useQuery(api.settings.get, { key: "aboutImageId" });
   const aboutImageUrl = useQuery(
     api.storage.getUrl,

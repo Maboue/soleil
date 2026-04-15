@@ -11,6 +11,7 @@ export function Home({ adminMode }: { adminMode: boolean }) {
           key={collection._id}
           collection={collection}
           isFirst={index === 0}
+          adminMode={adminMode}
         />
       ))}
     </div>

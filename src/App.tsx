@@ -18,6 +18,17 @@ function clearConvexAuthStorage() {
   }
 }
 
+const DEFAULT_SITE_TITLE = "Soleil Fleming";
+
+function SyncDocumentTitle() {
+  const artistName = useQuery(api.settings.get, { key: "artistName" });
+  useEffect(() => {
+    const name = (artistName ?? DEFAULT_SITE_TITLE).trim() || DEFAULT_SITE_TITLE;
+    document.title = name;
+  }, [artistName]);
+  return null;
+}
+
 function SessionNotAcceptedBanner() {
   const token = useAuthToken();
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -77,6 +88,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-stone-500">
+      <SyncDocumentTitle />
       <SessionNotAcceptedBanner />
       <AuthLoading>
         <div className="pointer-events-none fixed bottom-6 right-6 z-[200] text-sm font-light text-stone-400">
