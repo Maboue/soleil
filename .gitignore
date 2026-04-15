@@ -1,0 +1,14 @@
+node_modules/
+dist/
+
+# Local env files (never commit)
+.env
+.env.* 
+.env.local
+
+# Convex local state (never commit)
+.convex/
+
+# macOS
+.DS_Store
+
