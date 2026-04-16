@@ -40,18 +40,8 @@ export function CollectionBanner({
       )}
     >
       <article className="mx-auto w-full">
-        {collection.coverUrl ? (
-          <img
-            src={collection.coverUrl}
-            alt={titleText ?? "Collection"}
-            className="h-auto w-full max-w-full rounded-lg transition-[filter] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:brightness-[1.02]"
-          />
-        ) : (
-          <div className="min-h-[10rem]" aria-hidden />
-        )}
-
         {hasCaption && (
-          <header className="mt-14 px-1 text-center md:mt-16">
+          <header className="mb-14 px-1 text-center md:mb-16">
             <div className="mx-auto mb-10 h-px w-[4.5rem] bg-stone-400/45" aria-hidden />
             {titleText && (
               <h2 className="font-collection text-[1.5rem] font-normal leading-[1.2] tracking-[-0.02em] text-stone-800 md:text-[1.6875rem]">
@@ -69,6 +59,16 @@ export function CollectionBanner({
               </p>
             )}
           </header>
+        )}
+
+        {collection.coverUrl ? (
+          <img
+            src={collection.coverUrl}
+            alt={titleText ?? "Collection"}
+            className="h-auto w-full max-w-full rounded-lg transition-[filter] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:brightness-[1.02]"
+          />
+        ) : (
+          <div className="min-h-[10rem]" aria-hidden />
         )}
       </article>
     </Link>
