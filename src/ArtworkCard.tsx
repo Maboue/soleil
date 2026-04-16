@@ -147,7 +147,7 @@ export function ArtworkCard({
         <p className="text-sm font-light tracking-[0.08em] text-white/90">{artwork.title}</p>
         {artwork.price && (
           <p className="text-sm font-light text-white/85 mt-1">
-            {artwork.sold ? "Sold" : `€${artwork.price.toLocaleString()}`}
+            {artwork.sold ? "Sold" : `$${artwork.price.toLocaleString()}`}
           </p>
         )}
         {artwork.size && <p className="text-sm font-light text-white/85 mt-1">{artwork.size}</p>}

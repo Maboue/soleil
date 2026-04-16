@@ -124,7 +124,7 @@ export function ArtworkOverlay({ artwork, onClose }: Props) {
             <div className="flex justify-between gap-4">
               <span className="text-stone-500 uppercase tracking-[0.22em]">Price</span>
               <span className={artwork.sold ? "line-through text-stone-400 text-right" : "text-stone-500 text-right"}>
-                €{artwork.price.toLocaleString()}
+                ${artwork.price.toLocaleString()}
               </span>
             </div>
           )}
