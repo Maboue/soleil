@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Link, useMatch } from "react-router-dom";
 import { CollectionsNav } from "./CollectionsNav";
-import { CollectionsScrollCue } from "./CollectionsScrollCue";
 
 interface Props {
   adminMode: boolean;
@@ -64,40 +63,36 @@ export function SiteHeader({ adminMode }: Props) {
               </Link>
             </nav>
 
-            <div className="flex flex-col items-center gap-12 md:gap-16">
-              <div className="w-full text-center">
-                {editingName && adminMode ? (
-                  <input
-                    autoFocus
-                    className="mx-auto block w-full max-w-2xl border-b border-stone-200 bg-transparent text-center text-3xl font-light tracking-[0.08em] text-stone-500 outline-none md:text-5xl"
-                    value={nameVal}
-                    onChange={(e) => setNameVal(e.target.value)}
-                    onBlur={async () => {
-                      await setSetting({ key: "artistName", value: nameVal });
-                      setEditingName(false);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") (e.target as HTMLInputElement).blur();
-                    }}
-                  />
-                ) : (
-                  <h1
-                    className={`mx-auto max-w-3xl text-3xl font-light leading-[1.15] tracking-[0.08em] text-stone-500 md:text-5xl ${
-                      adminMode ? "cursor-pointer transition-opacity hover:opacity-60" : ""
-                    }`}
-                    onClick={() => {
-                      if (adminMode) {
-                        setNameVal(artistName ?? "");
-                        setEditingName(true);
-                      }
-                    }}
-                  >
-                    {artistName}
-                  </h1>
-                )}
-              </div>
-
-              <CollectionsScrollCue />
+            <div className="w-full text-center">
+              {editingName && adminMode ? (
+                <input
+                  autoFocus
+                  className="mx-auto block w-full max-w-2xl border-b border-stone-200 bg-transparent text-center text-3xl font-light tracking-[0.08em] text-stone-500 outline-none md:text-5xl"
+                  value={nameVal}
+                  onChange={(e) => setNameVal(e.target.value)}
+                  onBlur={async () => {
+                    await setSetting({ key: "artistName", value: nameVal });
+                    setEditingName(false);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                  }}
+                />
+              ) : (
+                <h1
+                  className={`mx-auto max-w-3xl text-3xl font-light leading-[1.15] tracking-[0.08em] text-stone-500 md:text-5xl ${
+                    adminMode ? "cursor-pointer transition-opacity hover:opacity-60" : ""
+                  }`}
+                  onClick={() => {
+                    if (adminMode) {
+                      setNameVal(artistName ?? "");
+                      setEditingName(true);
+                    }
+                  }}
+                >
+                  {artistName}
+                </h1>
+              )}
             </div>
           </div>
         </div>
