@@ -43,7 +43,7 @@ export function ContactForm() {
         <h2 className="mb-10 text-sm font-light uppercase tracking-[0.22em] text-stone-500">
           Contact
         </h2>
-        <form onSubmit={onSubmit} className="flex flex-col gap-6">
+        <form onSubmit={onSubmit} className="flex flex-col gap-5">
           <input
             className={fieldClass}
             name="name"

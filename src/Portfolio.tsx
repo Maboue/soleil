@@ -10,6 +10,7 @@ import { Home } from "./Home";
 import { CollectionPage } from "./CollectionPage";
 import { AboutPage } from "./AboutPage";
 import { AdminLoginFooter } from "./AdminLoginFooter";
+import { ContactForm } from "./ContactForm";
 
 interface Props {
   adminMode: boolean;
@@ -59,6 +60,7 @@ export function Portfolio({ adminMode }: Props) {
                     </button>
                   </div>
                 )}
+                <ContactForm />
               </>
             }
           />
