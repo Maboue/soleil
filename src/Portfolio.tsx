@@ -37,7 +37,9 @@ export function Portfolio({ adminMode }: Props) {
   const createCollection = useMutation(api.collections.create);
 
   return (
-    <div className={adminMode ? "pt-12" : ""}>
+    <div
+      className={`mx-auto w-full max-w-7xl ${adminMode ? "pt-12" : ""}`}
+    >
       <SiteHeader adminMode={adminMode} />
 
       <main>

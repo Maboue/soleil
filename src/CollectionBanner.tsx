@@ -39,7 +39,7 @@ export function CollectionBanner({
         isFirst ? "py-24 md:py-32 lg:py-36" : "py-20 md:py-28",
       )}
     >
-      <article className="mx-auto w-full max-w-6xl">
+      <article className="mx-auto w-full">
         {collection.coverUrl ? (
           <img
             src={collection.coverUrl}
