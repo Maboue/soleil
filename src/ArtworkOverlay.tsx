@@ -14,16 +14,25 @@ export function ArtworkOverlay({ artwork, onClose }: Props) {
   ].filter(Boolean) as string[];
 
   const [current, setCurrent] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
+
+  useEffect(() => {
+    setZoomed(false);
+  }, [current]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        if (zoomed) setZoomed(false);
+        else onClose();
+        return;
+      }
       if (e.key === "ArrowRight") setCurrent((c) => (c + 1) % allImages.length);
       if (e.key === "ArrowLeft") setCurrent((c) => (c - 1 + allImages.length) % allImages.length);
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [allImages.length, onClose]);
+  }, [allImages.length, onClose, zoomed]);
 
   return (
     <motion.div
@@ -36,37 +45,50 @@ export function ArtworkOverlay({ artwork, onClose }: Props) {
     >
       {/* Image area */}
       <div
-        className="flex-1 flex items-center justify-center p-6 md:p-12 relative bg-stone-100/80"
+        className="relative flex min-h-0 flex-1 flex-col bg-stone-100/80 md:min-h-screen"
         onClick={(e) => e.stopPropagation()}
       >
-        <motion.img
-          key={current}
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          src={allImages[current]}
-          alt={artwork.title}
-          className="max-h-[80vh] max-w-full object-contain"
-        />
+        <div className="min-h-0 flex-1 overflow-auto overscroll-contain">
+          <div className="flex min-h-full items-center justify-center p-4 md:p-10">
+            <motion.img
+              key={current}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              src={allImages[current]}
+              alt={artwork.title}
+              draggable={false}
+              onClick={() => setZoomed((z) => !z)}
+              className={`select-none object-contain transition-[max-height,max-width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                zoomed
+                  ? "max-h-[200vh] max-w-[200vw] cursor-zoom-out"
+                  : "max-h-[min(94vh,100dvh)] max-w-full cursor-zoom-in"
+              } h-auto w-auto`}
+            />
+          </div>
+        </div>
 
         {allImages.length > 1 && (
           <>
             <button
+              type="button"
               onClick={() => setCurrent((c) => (c - 1 + allImages.length) % allImages.length)}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 text-3xl font-light transition-opacity hover:opacity-80 w-10 h-10 flex items-center justify-center"
+              className="absolute left-4 top-1/2 z-10 -translate-y-1/2 text-stone-400 hover:text-stone-600 text-3xl font-light transition-opacity hover:opacity-80 w-10 h-10 flex items-center justify-center"
             >
               ‹
             </button>
             <button
+              type="button"
               onClick={() => setCurrent((c) => (c + 1) % allImages.length)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 text-3xl font-light transition-opacity hover:opacity-80 w-10 h-10 flex items-center justify-center"
+              className="absolute right-4 top-1/2 z-10 -translate-y-1/2 text-stone-400 hover:text-stone-600 text-3xl font-light transition-opacity hover:opacity-80 w-10 h-10 flex items-center justify-center"
             >
               ›
             </button>
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
               {allImages.map((_, i) => (
                 <button
+                  type="button"
                   key={i}
                   onClick={() => setCurrent(i)}
                   className={`w-1.5 h-1.5 rounded-full transition-all ${i === current ? "bg-stone-500 scale-125" : "bg-stone-300"}`}
