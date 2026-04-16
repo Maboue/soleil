@@ -5,7 +5,6 @@ import { motion } from "motion/react";
 import { Link, useMatch } from "react-router-dom";
 import { CollectionsNav } from "./CollectionsNav";
 import { CollectionsScrollCue } from "./CollectionsScrollCue";
-import { Id } from "../convex/_generated/dataModel";
 
 interface Props {
   adminMode: boolean;
@@ -13,11 +12,6 @@ interface Props {
 
 export function SiteHeader({ adminMode }: Props) {
   const artistName = useQuery(api.settings.get, { key: "artistName" }) ?? "Soleil Fleming";
-  const aboutImageId = useQuery(api.settings.get, { key: "aboutImageId" });
-  const aboutImageUrl = useQuery(
-    api.storage.getUrl,
-    aboutImageId ? { storageId: aboutImageId as Id<"_storage"> } : "skip",
-  );
   const setSetting = useMutation(api.settings.set);
   const isHome = useMatch({ path: "/", end: true }) !== null;
 
@@ -102,14 +96,6 @@ export function SiteHeader({ adminMode }: Props) {
                   </h1>
                 )}
               </div>
-
-              {aboutImageUrl && (
-                <div className="h-[200px] w-[200px] shrink-0">
-                  <div className="h-full w-full overflow-hidden rounded-full shadow-sm ring-1 ring-black/5">
-                    <img src={aboutImageUrl} alt="" className="h-full w-full object-cover" />
-                  </div>
-                </div>
-              )}
 
               <CollectionsScrollCue />
             </div>
