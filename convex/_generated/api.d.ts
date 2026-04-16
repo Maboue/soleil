@@ -12,6 +12,7 @@ import type * as admins from "../admins.js";
 import type * as artworks from "../artworks.js";
 import type * as auth from "../auth.js";
 import type * as collections from "../collections.js";
+import type * as contact from "../contact.js";
 import type * as http from "../http.js";
 import type * as router from "../router.js";
 import type * as settings from "../settings.js";
@@ -29,6 +30,7 @@ declare const fullApi: ApiFromModules<{
   artworks: typeof artworks;
   auth: typeof auth;
   collections: typeof collections;
+  contact: typeof contact;
   http: typeof http;
   router: typeof router;
   settings: typeof settings;
